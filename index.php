@@ -14,13 +14,23 @@
     <link rel="stylesheet" href="css/screen.css?1" />
 
     <script src="js/vendor/modernizr.js"></script>
-    <script src="js/custom.js?1"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 
   </head>
 
-  <body>
+  <body> 
 
-    <h1>Warriors flick kick mechanics development</h1>
+    <div id = "myElement">
+    
+      <!-- <h1>Warriors flick kick mechanics development</h1>-->
+    
+    </div>
+
+    <div id = "posts"></div>
+    <div id="crossbar"></div>
+
+    <script src="http://hammerjs.github.io/dist/hammer.js"></script>
+    <script src="js/custom.js?1"></script>
 
   </body>
 </html>
