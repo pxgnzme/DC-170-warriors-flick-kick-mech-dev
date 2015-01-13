@@ -11,9 +11,14 @@ hammertime.on('pan', function(ev) {
 
 var ball,doc;
 
-var distToPosts = 700;
+var goals = 0;
 
-var factor = 20;
+var distToPosts = 700;
+var widthOfPosts = 250;
+
+var factor = 60;
+
+var testing = false;
 
 var myElement = document.getElementById('myElement');
 
@@ -25,7 +30,9 @@ $(document).ready(function() {
 
 		speed:180,
 		angle:50,
-		gravity:30
+		gravity:30,
+		gAngle:0,
+		gDir:0
 
 	};
 
@@ -50,25 +57,55 @@ function setupHammer(){
 });*/
 
 	mc.on("swipe", function(ev) {
-	    myElement.textContent ="Speed :> "+ev.velocity;
+
+	    var velocityFactor;
+
+	    ball.gDir = 0;
+	    var gestureAngle = 0;
+
+	    if(ev.angle < 0){
+	    	gestureAngle = ev.angle*-1;
+		}else{
+			 gestureAngle = ev.angle;
+		}
+
+		if(gestureAngle > 90){
+
+			gestureAngle = 90-(gestureAngle-90);
+			ball.gDir = 1;
+
+		} 
+
+		if(testing){
+			myElement.textContent ="Gesture Angle :> "+Math.round(gestureAngle)+" :: Speed :> "+ev.velocity;
+		}
+
+		if(gestureAngle < 78){
+			gestureAngle = 78;
+		}
+
+		ball.gAngle = gestureAngle;
 
 	    if(ev.velocity < 0){
 
-	    	var velocityFactor = ev.velocity*-1;
+	    	velocityFactor = ev.velocity*-1;
+
+	    }else{
+
+	    	velocityFactor = ev.velocity;
+	    }
+
+	    if (velocityFactor < 2.5){
+
+	    	velocityFactor = 2.5;
+
+	    }else if(velocityFactor > 3.8){
+
+	    	velocityFactor = 3.8;
 
 	    }
 
-	    if (velocityFactor < 7.5){
-
-	    	velocityFactor = 7.5;
-
-	    }else if(velocityFactor > 10){
-
-	    	velocityFactor = 10;
-
-	    }
-
-	    ball.speed = velocityFactor*factor;
+	    ball.speed = Number(velocityFactor)*factor;
 
 	    getTrad();
 
@@ -112,11 +149,44 @@ function getTrad(){
 	var hAtX = ((distToPosts * vY)/vX) - (0.5 * ball.gravity * (Math.pow(distToPosts,2)/Math.pow(vX,2)));
 	$.logThis("height at posts :> "+hAtX);
 
-	$('body').append('<div class="trace" style="bottom: '+hAtX+'px; left: 700px;"></div>');
+	var dirDisAtX = distToPosts/Math.tan(ball.gAngle * Math.PI/180);
 
-	if(hAtX > 200){
-		alert("you kicked it over");
+	var hitLeft = 0;
+
+	$.logThis("dir :> "+ball.gDir);
+
+	if(ball.gDir == 0){
+
+		hitLeft = (widthOfPosts/2)+dirDisAtX;
+	
+	}else{
+
+		hitLeft = (widthOfPosts/2)-dirDisAtX;
+
+		$.logThis("dirDisAtX :> "+dirDisAtX+" :: hit left :> "+hitLeft);
+
 	}
+
+	displayHitLeft = hitLeft-(25/2);
+	displayHAtX = hAtX-(38/2);
+
+	$('#goal').append('<div class="trace" style="bottom: '+
+		displayHAtX+'px; left: '+displayHitLeft+'px"></div>');
+
+	if(hAtX > 200){ 
+
+		if(hitLeft >= 0 && hitLeft <= widthOfPosts){
+			goals ++;
+
+			$('#score_txt').html(goals);
+		}
+
+	}else{
+
+
+	}
+
+	
 
 
 }

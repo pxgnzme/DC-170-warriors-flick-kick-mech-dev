@@ -5,6 +5,7 @@
 
     <link href='http://fonts.googleapis.com/css?family=Raleway:100,400,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:700,400,100' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -18,16 +19,19 @@
 
   </head>
 
-  <body> 
+  <body>
 
-    <div id = "myElement">
-    
-      <!-- <h1>Warriors flick kick mechanics development</h1>-->
+    <div id = "canvas">
+      
+      <div id="goal"></div>
     
     </div>
 
-    <div id = "posts"></div>
-    <div id="crossbar"></div>
+    <div id = "myElement">
+    
+    </div>
+
+    <div id = "score">SCORE: <span id = "score_txt">0</span></div>
 
     <script src="http://hammerjs.github.io/dist/hammer.js"></script>
     <script src="js/custom.js?1"></script>
